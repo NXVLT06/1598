@@ -81,12 +81,18 @@
           To my incredible friend, singer, and artist — wishing you a year filled with sweet melodies, non-stop laughter, and endless happiness! <span class="emoji">🎉🎂💖</span>
         </p>
 
-        <!-- Background Audio (Plays Once, No Buttons) -->
-        <audio id="gokul-voice-audio" autoplay preload="auto">
-          <source src="assets/audio/whatsapp-voice-wish.m4a" type="audio/mp4">
-          <source src="assets/audio/whatsapp-voice-wish.mp4" type="audio/mp4">
-          <source src="assets/audio/gokul-happy-birthday-girl.webm" type="audio/webm">
-        </audio>
+        <!-- Gokul's Voice Birthday Wish Player -->
+        <div class="voice-wish-card" style="margin-top: 25px; padding: 18px 22px; background: rgba(255, 255, 255, 0.95); border: 2px solid var(--pink-border); border-radius: 20px; box-shadow: 0 10px 30px rgba(225, 29, 72, 0.12);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <span style="font-size: 1.4rem;">🎙️</span>
+            <strong style="font-family: var(--font-heading); color: var(--pink-accent); font-size: 1.05rem;">Gokul's Voice Birthday Wish 💖</strong>
+          </div>
+          <audio id="gokul-voice-audio" controls autoplay preload="auto" style="width: 100%; border-radius: 12px;">
+            <source src="assets/audio/whatsapp-voice-wish.m4a" type="audio/mp4">
+            <source src="assets/audio/whatsapp-voice-wish.mp4" type="audio/mp4">
+            <source src="assets/audio/gokul-happy-birthday-girl.webm" type="audio/webm">
+          </audio>
+        </div>
 
       </div>
 
