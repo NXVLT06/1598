@@ -76,21 +76,43 @@
   const voiceAudio = document.getElementById('gokul-voice-audio');
   let hasVoicePlayed = false;
 
+  function tryJsAudioFallback() {
+    try {
+      const audio = new Audio('assets/audio/whatsapp-voice-wish.mp4');
+      audio.volume = 1.0;
+      const p = audio.play();
+      if (p !== undefined) {
+        p.then(() => {
+          hasVoicePlayed = true;
+        }).catch(() => {
+          if (window.speakBirthdayWish) window.speakBirthdayWish();
+        });
+      }
+    } catch(e) {
+      if (window.speakBirthdayWish) window.speakBirthdayWish();
+    }
+  }
+
   function forcePlayHeroVoice() {
-    if (hasVoicePlayed || !voiceAudio) return;
+    if (hasVoicePlayed) return;
 
-    voiceAudio.volume = 1.0;
-    voiceAudio.muted = false;
+    if (voiceAudio) {
+      voiceAudio.volume = 1.0;
+      voiceAudio.muted = false;
 
-    const promise = voiceAudio.play();
-    if (promise !== undefined) {
-      promise.then(() => {
+      const promise = voiceAudio.play();
+      if (promise !== undefined) {
+        promise.then(() => {
+          hasVoicePlayed = true;
+        }).catch((err) => {
+          console.warn("Audio element play error, attempting fallback:", err);
+          tryJsAudioFallback();
+        });
+      } else {
         hasVoicePlayed = true;
-      }).catch(() => {
-        hasVoicePlayed = false;
-      });
+      }
     } else {
-      hasVoicePlayed = true;
+      tryJsAudioFallback();
     }
   }
 
