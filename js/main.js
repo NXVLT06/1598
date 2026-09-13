@@ -74,70 +74,44 @@
     requestAnimationFrame(animateConfetti);
   }
 
-  // ── 2. Hero Voice Player Autoplay Logic ────────────────────
-  const voiceAudio = document.getElementById('gokul-voice-audio');
-  let hasVoicePlayed = false;
+  // ── 2. Manual Voice Player Play/Pause Control ────────────────────
+  window.toggleManualVoicePlay = function() {
+    const audio = document.getElementById('gokul-voice-audio');
+    const playBtn = document.getElementById('manual-voice-play-btn');
+    const btnIcon = document.getElementById('play-btn-icon');
+    const btnText = document.getElementById('play-btn-text');
 
-  function tryJsAudioFallback() {
-    try {
-      const audio = new Audio('assets/audio/whatsapp-voice-wish.mp4');
+    if (!audio) return;
+
+    if (audio.paused) {
       audio.volume = 1.0;
-      const p = audio.play();
-      if (p !== undefined) {
-        p.then(() => {
-          hasVoicePlayed = true;
-        }).catch(() => {
-          if (window.speakBirthdayWish) window.speakBirthdayWish();
-        });
-      }
-    } catch(e) {
-      if (window.speakBirthdayWish) window.speakBirthdayWish();
-    }
-  }
+      audio.muted = false;
+      const promise = audio.play();
 
-  function forcePlayHeroVoice() {
-    if (hasVoicePlayed) return;
-
-    if (voiceAudio) {
-      voiceAudio.volume = 1.0;
-      voiceAudio.muted = false;
-
-      const promise = voiceAudio.play();
       if (promise !== undefined) {
         promise.then(() => {
-          hasVoicePlayed = true;
+          if (playBtn) playBtn.classList.add('playing');
+          if (btnIcon) btnIcon.textContent = '⏸';
+          if (btnText) btnText.textContent = 'Pause Voice';
         }).catch((err) => {
-          console.warn("Audio element play error, attempting fallback:", err);
-          tryJsAudioFallback();
+          console.warn("Manual play error:", err);
         });
-      } else {
-        hasVoicePlayed = true;
       }
     } else {
-      tryJsAudioFallback();
+      audio.pause();
+      if (playBtn) playBtn.classList.remove('playing');
+      if (btnIcon) btnIcon.textContent = '▶';
+      if (btnText) btnText.textContent = 'Play Voice Wish';
     }
-  }
 
-  window.playVoiceWish = forcePlayHeroVoice;
+    audio.onended = function() {
+      if (playBtn) playBtn.classList.remove('playing');
+      if (btnIcon) btnIcon.textContent = '▶';
+      if (btnText) btnText.textContent = 'Play Voice Wish';
+    };
+  };
 
-  if (voiceAudio) {
-    voiceAudio.load();
-    voiceAudio.addEventListener('canplay', forcePlayHeroVoice);
-    voiceAudio.addEventListener('canplaythrough', forcePlayHeroVoice);
-  }
-
-  const events = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousemove', 'scroll', 'keydown'];
-  events.forEach(evt => {
-    window.addEventListener(evt, forcePlayHeroVoice, { passive: true });
-    document.addEventListener(evt, forcePlayHeroVoice, { passive: true });
-  });
-
-  forcePlayHeroVoice();
-  window.addEventListener('load', forcePlayHeroVoice);
-  document.addEventListener('DOMContentLoaded', forcePlayHeroVoice);
-  setTimeout(forcePlayHeroVoice, 100);
-  setTimeout(forcePlayHeroVoice, 500);
-  setTimeout(forcePlayHeroVoice, 1200);
+  window.playVoiceWish = window.toggleManualVoicePlay;
 
   // ── 3. 5-Photo Shuffling Card Stack Logic ─────────────────
   const photoStack = document.getElementById('photo-stack');
