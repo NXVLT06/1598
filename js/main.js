@@ -75,26 +75,43 @@
   // ── 2. One-Time Voice Wish Background Autoplay ────────────
   const voiceAudioEl = document.getElementById('gokul-voice-audio');
   let hasVoicePlayed = false;
+  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'keydown'];
+
+  function removeVoiceGestureListeners() {
+    interactionEvents.forEach(evt => {
+      window.removeEventListener(evt, playVoiceWishOnce);
+      document.removeEventListener(evt, playVoiceWishOnce);
+    });
+  }
 
   function playVoiceWishOnce() {
     if (hasVoicePlayed || !voiceAudioEl) return;
-    hasVoicePlayed = true;
     voiceAudioEl.volume = 1.0;
     const playPromise = voiceAudioEl.play();
     if (playPromise !== undefined) {
-      playPromise.catch(() => {
+      playPromise.then(() => {
+        hasVoicePlayed = true;
+        removeVoiceGestureListeners();
+      }).catch(() => {
         hasVoicePlayed = false;
       });
+    } else {
+      hasVoicePlayed = true;
+      removeVoiceGestureListeners();
     }
   }
 
   if (voiceAudioEl) {
+    playVoiceWishOnce();
     window.addEventListener('load', playVoiceWishOnce);
     document.addEventListener('DOMContentLoaded', playVoiceWishOnce);
-    ['click', 'touchstart', 'scroll', 'pointerdown', 'keydown'].forEach(evt => {
-      window.addEventListener(evt, playVoiceWishOnce, { passive: true, once: true });
-    });
     setTimeout(playVoiceWishOnce, 300);
+    setTimeout(playVoiceWishOnce, 1000);
+
+    interactionEvents.forEach(evt => {
+      window.addEventListener(evt, playVoiceWishOnce, { passive: true });
+      document.addEventListener(evt, playVoiceWishOnce, { passive: true });
+    });
   }
 
   // ── 3. 5-Photo Shuffling Card Stack Logic ─────────────────
