@@ -73,11 +73,11 @@
 
     requestAnimationFrame(animateConfetti);
   // ── 2. One-Time Voice Wish Background Autoplay & Intro Overlay ────────────
-  const voiceAudioEl  = document.getElementById('gokul-voice-audio');
-  const startOverlay  = document.getElementById('start-overlay');
-  const startEnterBtn = document.getElementById('start-enter-btn');
-  let hasVoicePlayed  = false;
-  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'keydown'];
+  const voiceAudioEl     = document.getElementById('gokul-voice-audio');
+  const startOverlay     = document.getElementById('start-overlay');
+  const startEnterBtn    = document.getElementById('start-enter-btn');
+  const floatingVoiceBtn = document.getElementById('floating-voice-btn');
+  let hasVoicePlayed     = false;
 
   function dismissOverlay() {
     if (startOverlay) {
@@ -88,58 +88,81 @@
     }
   }
 
-  function removeVoiceGestureListeners() {
-    interactionEvents.forEach(evt => {
-      window.removeEventListener(evt, playVoiceWishOnce);
-      document.removeEventListener(evt, playVoiceWishOnce);
-    });
+  function fallbackVoicePlay() {
+    try {
+      const audio = new Audio('assets/audio/gokul-voice-wish.mp3');
+      audio.volume = 1.0;
+      const p = audio.play();
+      if (p !== undefined) {
+        p.then(() => {
+          hasVoicePlayed = true;
+        }).catch(() => {
+          if (window.speakBirthdayWish) window.speakBirthdayWish();
+        });
+      }
+    } catch(e) {
+      if (window.speakBirthdayWish) window.speakBirthdayWish();
+    }
   }
 
-  function playVoiceWishOnce() {
-    if (hasVoicePlayed || !voiceAudioEl) return;
-    voiceAudioEl.volume = 1.0;
-    const playPromise = voiceAudioEl.play();
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
+  function playVoiceWish() {
+    dismissOverlay();
+    if (window.launchConfetti) window.launchConfetti(4000);
+    if (window.launchFireworks) window.launchFireworks(4000);
+
+    if (voiceAudioEl) {
+      voiceAudioEl.currentTime = 0;
+      voiceAudioEl.volume = 1.0;
+      const playPromise = voiceAudioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          hasVoicePlayed = true;
+        }).catch((err) => {
+          console.warn("Audio element play error, attempting fallback JS Audio/TTS:", err);
+          fallbackVoicePlay();
+        });
+      } else {
         hasVoicePlayed = true;
-        dismissOverlay();
-        removeVoiceGestureListeners();
-        if (window.launchConfetti) window.launchConfetti(4000);
-        if (window.launchFireworks) window.launchFireworks(4000);
-      }).catch(() => {
-        hasVoicePlayed = false;
-      });
+      }
     } else {
-      hasVoicePlayed = true;
-      dismissOverlay();
-      removeVoiceGestureListeners();
+      fallbackVoicePlay();
     }
+  }
+
+  function playOnceOnStart() {
+    if (hasVoicePlayed) return;
+    playVoiceWish();
   }
 
   if (startEnterBtn) {
     startEnterBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      playVoiceWishOnce();
+      playVoiceWish();
     });
   }
 
   if (startOverlay) {
     startOverlay.addEventListener('click', () => {
-      playVoiceWishOnce();
+      playVoiceWish();
     });
   }
 
-  if (voiceAudioEl) {
-    playVoiceWishOnce();
-    window.addEventListener('load', playVoiceWishOnce);
-    document.addEventListener('DOMContentLoaded', playVoiceWishOnce);
-    setTimeout(playVoiceWishOnce, 300);
-
-    interactionEvents.forEach(evt => {
-      window.addEventListener(evt, playVoiceWishOnce, { passive: true });
-      document.addEventListener(evt, playVoiceWishOnce, { passive: true });
+  if (floatingVoiceBtn) {
+    floatingVoiceBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      playVoiceWish();
     });
   }
+
+  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'keydown'];
+  interactionEvents.forEach(evt => {
+    window.addEventListener(evt, playOnceOnStart, { passive: true, once: true });
+    document.addEventListener(evt, playOnceOnStart, { passive: true, once: true });
+  });
+
+  window.addEventListener('load', playOnceOnStart);
+  document.addEventListener('DOMContentLoaded', playOnceOnStart);
+  setTimeout(playOnceOnStart, 300);
 
   // ── 3. 5-Photo Shuffling Card Stack Logic ─────────────────
   const photoStack = document.getElementById('photo-stack');
