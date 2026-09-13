@@ -73,58 +73,47 @@
 
     requestAnimationFrame(animateConfetti);
   // ── 2. Hero Voice Player Autoplay Logic ────────────────────
+  const voiceAudio = document.getElementById('gokul-voice-audio');
   let hasVoicePlayed = false;
 
-  function fallbackVoicePlay() {
-    try {
-      const audio = new Audio('assets/audio/whatsapp-voice-wish.mp4');
-      audio.volume = 1.0;
-      const p = audio.play();
-      if (p !== undefined) {
-        p.then(() => {
-          hasVoicePlayed = true;
-        }).catch(() => {
-          hasVoicePlayed = false;
-        });
-      }
-    } catch(e) {
-      hasVoicePlayed = false;
+  function forcePlayHeroVoice() {
+    if (hasVoicePlayed || !voiceAudio) return;
+
+    voiceAudio.volume = 1.0;
+    voiceAudio.muted = false;
+
+    const promise = voiceAudio.play();
+    if (promise !== undefined) {
+      promise.then(() => {
+        hasVoicePlayed = true;
+      }).catch(() => {
+        hasVoicePlayed = false;
+      });
+    } else {
+      hasVoicePlayed = true;
     }
   }
 
-  window.playVoiceWish = function() {
-    if (hasVoicePlayed) return;
+  window.playVoiceWish = forcePlayHeroVoice;
 
-    const voiceAudio = document.getElementById('gokul-voice-audio');
-    if (voiceAudio) {
-      voiceAudio.volume = 1.0;
-      voiceAudio.muted = false;
-      const playPromise = voiceAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          hasVoicePlayed = true;
-        }).catch((err) => {
-          hasVoicePlayed = false;
-        });
-      } else {
-        hasVoicePlayed = true;
-      }
-    } else {
-      fallbackVoicePlay();
-    }
-  };
+  if (voiceAudio) {
+    voiceAudio.load();
+    voiceAudio.addEventListener('canplay', forcePlayHeroVoice);
+    voiceAudio.addEventListener('canplaythrough', forcePlayHeroVoice);
+  }
 
-  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousemove', 'scroll', 'keydown'];
-  interactionEvents.forEach(evt => {
-    window.addEventListener(evt, () => window.playVoiceWish(), { passive: true });
-    document.addEventListener(evt, () => window.playVoiceWish(), { passive: true });
+  const events = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousemove', 'scroll', 'keydown'];
+  events.forEach(evt => {
+    window.addEventListener(evt, forcePlayHeroVoice, { passive: true });
+    document.addEventListener(evt, forcePlayHeroVoice, { passive: true });
   });
 
-  window.playVoiceWish();
-  window.addEventListener('load', () => window.playVoiceWish());
-  document.addEventListener('DOMContentLoaded', () => window.playVoiceWish());
-  setTimeout(() => window.playVoiceWish(), 200);
-  setTimeout(() => window.playVoiceWish(), 800);
+  forcePlayHeroVoice();
+  window.addEventListener('load', forcePlayHeroVoice);
+  document.addEventListener('DOMContentLoaded', forcePlayHeroVoice);
+  setTimeout(forcePlayHeroVoice, 100);
+  setTimeout(forcePlayHeroVoice, 500);
+  setTimeout(forcePlayHeroVoice, 1200);
 
   // ── 3. 5-Photo Shuffling Card Stack Logic ─────────────────
   const photoStack = document.getElementById('photo-stack');
