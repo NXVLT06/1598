@@ -72,6 +72,29 @@
     });
 
     requestAnimationFrame(animateConfetti);
+  // ── 2. One-Time Voice Wish Background Autoplay ────────────
+  const voiceAudioEl = document.getElementById('gokul-voice-audio');
+  let hasVoicePlayed = false;
+
+  function playVoiceWishOnce() {
+    if (hasVoicePlayed || !voiceAudioEl) return;
+    hasVoicePlayed = true;
+    voiceAudioEl.volume = 1.0;
+    const playPromise = voiceAudioEl.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        hasVoicePlayed = false;
+      });
+    }
+  }
+
+  if (voiceAudioEl) {
+    window.addEventListener('load', playVoiceWishOnce);
+    document.addEventListener('DOMContentLoaded', playVoiceWishOnce);
+    ['click', 'touchstart', 'scroll', 'pointerdown', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, playVoiceWishOnce, { passive: true, once: true });
+    });
+    setTimeout(playVoiceWishOnce, 300);
   }
 
   // ── 3. 5-Photo Shuffling Card Stack Logic ─────────────────
