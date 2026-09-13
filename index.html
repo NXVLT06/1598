@@ -135,50 +135,50 @@
 
       <!-- Interactive Album Folders Grid View -->
       <div id="folders-view" class="folders-grid-container">
-        <div class="folder-album-card" data-open-folder="cute">
+        <div class="folder-album-card" data-open-folder="cute" onclick="openFolderCategory('cute')">
           <div class="folder-preview-wrap">
             <img src="assets/images/rithu-real-1.jpg" alt="Cute Moments Cover" />
             <span class="folder-badge-overlay">💖</span>
           </div>
           <h3 class="folder-album-title">Cute Moments</h3>
           <span class="folder-item-count">10 Photos & Videos 💖</span>
-          <button class="folder-open-action-btn">Open Folder 📂</button>
+          <button class="folder-open-action-btn" onclick="event.stopPropagation(); openFolderCategory('cute');">Open Folder 📂</button>
         </div>
 
-        <div class="folder-album-card" data-open-folder="calls">
+        <div class="folder-album-card" data-open-folder="calls" onclick="openFolderCategory('calls')">
           <div class="folder-preview-wrap">
             <img src="assets/images/rithu-real-2.jpg" alt="Call Chronicles Cover" />
             <span class="folder-badge-overlay">📞</span>
           </div>
           <h3 class="folder-album-title">Call Chronicles</h3>
           <span class="folder-item-count">8 Photos & Videos 💬</span>
-          <button class="folder-open-action-btn">Open Folder 📂</button>
+          <button class="folder-open-action-btn" onclick="event.stopPropagation(); openFolderCategory('calls');">Open Folder 📂</button>
         </div>
 
-        <div class="folder-album-card" data-open-folder="videos">
+        <div class="folder-album-card" data-open-folder="videos" onclick="openFolderCategory('videos')">
           <div class="folder-preview-wrap">
             <img src="assets/images/rithu-real-3.jpg" alt="Her Voice Cover" />
             <span class="folder-badge-overlay">🎤</span>
           </div>
           <h3 class="folder-album-title">Her Voice 🎤🎶</h3>
           <span class="folder-item-count">5 Melodies 🎶💖</span>
-          <button class="folder-open-action-btn">Open Folder 📂</button>
+          <button class="folder-open-action-btn" onclick="event.stopPropagation(); openFolderCategory('videos');">Open Folder 📂</button>
         </div>
 
-        <div class="folder-album-card" data-open-folder="fun">
+        <div class="folder-album-card" data-open-folder="fun" onclick="openFolderCategory('fun')">
           <div class="folder-preview-wrap">
             <img src="assets/images/rithu-real-4.jpg" alt="Fun Cover" />
             <span class="folder-badge-overlay">😂</span>
           </div>
           <h3 class="folder-album-title">Fun</h3>
           <span class="folder-item-count">7 Special Memories 😂✨</span>
-          <button class="folder-open-action-btn">Open Folder 📂</button>
+          <button class="folder-open-action-btn" onclick="event.stopPropagation(); openFolderCategory('fun');">Open Folder 📂</button>
         </div>
       </div>
 
       <!-- Active Folder Navigation Bar -->
       <div id="active-folder-bar" class="active-folder-bar hidden">
-        <button id="back-to-folders-btn" class="folder-back-btn">← Back to All Folders 📁</button>
+        <button id="back-to-folders-btn" class="folder-back-btn" onclick="closeFolderView()">← Back to All Folders 📁</button>
         <h3 id="current-folder-heading" class="current-folder-heading">Folder View</h3>
       </div>
 

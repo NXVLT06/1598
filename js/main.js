@@ -178,8 +178,19 @@
     'fun': '😂 Fun Folder'
   };
 
-  function openFolderCategory(folderKey) {
+  window.openFolderCategory = function(folderKey) {
     if (!folderKey) return;
+    const foldersView      = document.getElementById('folders-view');
+    const memoriesGrid     = document.getElementById('memories-grid');
+    const activeFolderBar  = document.getElementById('active-folder-bar');
+    const currentHeading   = document.getElementById('current-folder-heading');
+
+    const folderNames = {
+      'cute': '💖 Cute Moments Folder',
+      'calls': '📞 Call Chronicles Folder',
+      'videos': '🎤 Her Voice Folder',
+      'fun': '😂 Fun Folder'
+    };
 
     if (foldersView) {
       foldersView.classList.add('hidden');
@@ -215,9 +226,13 @@
     if (activeFolderBar) {
       activeFolderBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }
+  };
 
-  function closeFolderView() {
+  window.closeFolderView = function() {
+    const foldersView      = document.getElementById('folders-view');
+    const memoriesGrid     = document.getElementById('memories-grid');
+    const activeFolderBar  = document.getElementById('active-folder-bar');
+
     if (memoriesGrid) {
       memoriesGrid.classList.add('hidden');
       memoriesGrid.style.display = 'none';
@@ -231,12 +246,9 @@
     if (foldersView) {
       foldersView.classList.remove('hidden');
       foldersView.style.display = 'grid';
-    }
-
-    if (foldersView) {
       foldersView.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }
+  };
 
   // Delegate clicks on foldersView container for 100% click reliability
   if (foldersView) {
