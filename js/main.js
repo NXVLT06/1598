@@ -74,9 +74,43 @@
     requestAnimationFrame(animateConfetti);
   }
 
-  // ── 2. Manual Voice Player Play/Pause Control ────────────────────
+  // ── 2. Automatic Voice Wish Playback After 3 Seconds ────────────
+  let hasAutoPlayed3s = false;
+
+  function autoPlayVoiceWishAfter3s() {
+    if (hasAutoPlayed3s) return;
+
+    const audio   = document.getElementById('gokul-voice-audio');
+    const playBtn = document.getElementById('manual-voice-play-btn');
+    const btnIcon = document.getElementById('play-btn-icon');
+    const btnText = document.getElementById('play-btn-text');
+
+    if (!audio) return;
+
+    audio.volume = 1.0;
+    audio.muted  = false;
+
+    const promise = audio.play();
+    if (promise !== undefined) {
+      promise.then(() => {
+        hasAutoPlayed3s = true;
+        if (playBtn) playBtn.classList.add('playing');
+        if (btnIcon) btnIcon.textContent = '⏸';
+        if (btnText) btnText.textContent = 'Pause Voice';
+      }).catch((err) => {
+        console.warn("Autoplay blocked by browser policy, waiting for user interaction:", err);
+      });
+    }
+
+    audio.onended = function() {
+      if (playBtn) playBtn.classList.remove('playing');
+      if (btnIcon) btnIcon.textContent = '▶';
+      if (btnText) btnText.textContent = 'Play Voice Wish';
+    };
+  }
+
   window.toggleManualVoicePlay = function() {
-    const audio = document.getElementById('gokul-voice-audio');
+    const audio   = document.getElementById('gokul-voice-audio');
     const playBtn = document.getElementById('manual-voice-play-btn');
     const btnIcon = document.getElementById('play-btn-icon');
     const btnText = document.getElementById('play-btn-text');
@@ -85,16 +119,17 @@
 
     if (audio.paused) {
       audio.volume = 1.0;
-      audio.muted = false;
+      audio.muted  = false;
       const promise = audio.play();
 
       if (promise !== undefined) {
         promise.then(() => {
+          hasAutoPlayed3s = true;
           if (playBtn) playBtn.classList.add('playing');
           if (btnIcon) btnIcon.textContent = '⏸';
           if (btnText) btnText.textContent = 'Pause Voice';
         }).catch((err) => {
-          console.warn("Manual play error:", err);
+          console.warn("Play error:", err);
         });
       }
     } else {
@@ -112,6 +147,23 @@
   };
 
   window.playVoiceWish = window.toggleManualVoicePlay;
+
+  // Trigger 3-Second Delay Autoplay after homepage loads
+  setTimeout(autoPlayVoiceWishAfter3s, 3000);
+
+  const userGestureEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousemove', 'scroll', 'keydown'];
+  userGestureEvents.forEach(evt => {
+    window.addEventListener(evt, () => {
+      if (!hasAutoPlayed3s) {
+        autoPlayVoiceWishAfter3s();
+      }
+    }, { passive: true });
+    document.addEventListener(evt, () => {
+      if (!hasAutoPlayed3s) {
+        autoPlayVoiceWishAfter3s();
+      }
+    }, { passive: true });
+  });
 
   // ── 3. 5-Photo Shuffling Card Stack Logic ─────────────────
   const photoStack = document.getElementById('photo-stack');
