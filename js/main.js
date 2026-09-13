@@ -72,6 +72,8 @@
     });
 
     requestAnimationFrame(animateConfetti);
+  }
+
   // ── 2. Hero Voice Player Autoplay Logic ────────────────────
   const voiceAudio = document.getElementById('gokul-voice-audio');
   let hasVoicePlayed = false;
