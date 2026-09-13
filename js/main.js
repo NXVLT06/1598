@@ -72,8 +72,7 @@
     });
 
     requestAnimationFrame(animateConfetti);
-  // ── 2. One-Time Invisible Background Voice Wish Autoplay ────────────
-  const voiceAudioEl = document.getElementById('gokul-voice-audio');
+  // ── 2. Hero Voice Player Autoplay Logic ────────────────────
   let hasVoicePlayed = false;
 
   function fallbackVoicePlay() {
@@ -85,11 +84,11 @@
         p.then(() => {
           hasVoicePlayed = true;
         }).catch(() => {
-          if (window.speakBirthdayWish) window.speakBirthdayWish();
+          hasVoicePlayed = false;
         });
       }
     } catch(e) {
-      if (window.speakBirthdayWish) window.speakBirthdayWish();
+      hasVoicePlayed = false;
     }
   }
 
@@ -98,15 +97,14 @@
 
     const voiceAudio = document.getElementById('gokul-voice-audio');
     if (voiceAudio) {
-      voiceAudio.currentTime = 0;
       voiceAudio.volume = 1.0;
+      voiceAudio.muted = false;
       const playPromise = voiceAudio.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
           hasVoicePlayed = true;
         }).catch((err) => {
-          console.warn("Audio element play error, attempting fallback JS Audio/TTS:", err);
-          fallbackVoicePlay();
+          hasVoicePlayed = false;
         });
       } else {
         hasVoicePlayed = true;
@@ -116,15 +114,17 @@
     }
   };
 
-  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'keydown'];
+  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousemove', 'scroll', 'keydown'];
   interactionEvents.forEach(evt => {
     window.addEventListener(evt, () => window.playVoiceWish(), { passive: true });
     document.addEventListener(evt, () => window.playVoiceWish(), { passive: true });
   });
 
+  window.playVoiceWish();
   window.addEventListener('load', () => window.playVoiceWish());
   document.addEventListener('DOMContentLoaded', () => window.playVoiceWish());
-  setTimeout(() => window.playVoiceWish(), 300);
+  setTimeout(() => window.playVoiceWish(), 200);
+  setTimeout(() => window.playVoiceWish(), 800);
 
   // ── 3. 5-Photo Shuffling Card Stack Logic ─────────────────
   const photoStack = document.getElementById('photo-stack');
