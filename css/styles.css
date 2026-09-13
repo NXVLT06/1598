@@ -1076,3 +1076,45 @@ span.emoji {
   0%, 100% { box-shadow: 0 10px 25px rgba(225, 29, 72, 0.35); }
   50% { box-shadow: 0 10px 30px rgba(255, 105, 180, 0.6), 0 0 15px rgba(225, 29, 72, 0.4); }
 }
+
+/* Hero Voice Player Card */
+.hero-voice-player-card {
+  margin-top: 25px;
+  padding: 16px 22px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid var(--pink-border);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(225, 29, 72, 0.12);
+  width: 100%;
+  max-width: 480px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-voice-player-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(225, 29, 72, 0.18);
+}
+
+.hero-voice-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.hero-voice-icon {
+  font-size: 1.3rem;
+}
+
+.hero-voice-title {
+  font-family: var(--font-heading);
+  color: var(--pink-accent);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.hero-audio-controls {
+  width: 100%;
+  border-radius: 12px;
+  outline: none;
+}
