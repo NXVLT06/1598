@@ -72,22 +72,9 @@
     });
 
     requestAnimationFrame(animateConfetti);
-  // ── 2. One-Time Voice Wish Background Autoplay & Intro Overlay ────────────
-  const voiceAudioEl     = document.getElementById('gokul-voice-audio');
-  const startOverlay     = document.getElementById('start-overlay');
-  const startEnterBtn    = document.getElementById('start-enter-btn');
-  const floatingVoiceBtn = document.getElementById('floating-voice-btn');
-  let hasVoicePlayed     = false;
-
-  function dismissOverlay() {
-    const overlay = document.getElementById('start-overlay');
-    if (overlay) {
-      overlay.classList.add('fade-out');
-      setTimeout(() => {
-        overlay.style.display = 'none';
-      }, 400);
-    }
-  }
+  // ── 2. One-Time Invisible Background Voice Wish Autoplay ────────────
+  const voiceAudioEl = document.getElementById('gokul-voice-audio');
+  let hasVoicePlayed = false;
 
   function fallbackVoicePlay() {
     try {
@@ -107,9 +94,7 @@
   }
 
   window.playVoiceWish = function() {
-    dismissOverlay();
-    if (window.launchConfetti) window.launchConfetti(4000);
-    if (window.launchFireworks) window.launchFireworks(4000);
+    if (hasVoicePlayed) return;
 
     const voiceAudio = document.getElementById('gokul-voice-audio');
     if (voiceAudio) {
@@ -131,25 +116,15 @@
     }
   };
 
-  if (startEnterBtn) {
-    startEnterBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      window.playVoiceWish();
-    });
-  }
+  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'keydown'];
+  interactionEvents.forEach(evt => {
+    window.addEventListener(evt, () => window.playVoiceWish(), { passive: true });
+    document.addEventListener(evt, () => window.playVoiceWish(), { passive: true });
+  });
 
-  if (startOverlay) {
-    startOverlay.addEventListener('click', () => {
-      window.playVoiceWish();
-    });
-  }
-
-  if (floatingVoiceBtn) {
-    floatingVoiceBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      window.playVoiceWish();
-    });
-  }
+  window.addEventListener('load', () => window.playVoiceWish());
+  document.addEventListener('DOMContentLoaded', () => window.playVoiceWish());
+  setTimeout(() => window.playVoiceWish(), 300);
 
   // ── 3. 5-Photo Shuffling Card Stack Logic ─────────────────
   const photoStack = document.getElementById('photo-stack');

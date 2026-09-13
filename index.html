@@ -14,18 +14,7 @@
 </head>
 <body>
 
-  <!-- Opening Welcome Overlay (Triggers Voice Autoplay from the starting moment) -->
-  <div id="start-overlay" class="start-overlay" onclick="this.style.display='none'; if(window.playVoiceWish) window.playVoiceWish();">
-    <div class="start-overlay-card" onclick="event.stopPropagation();">
-      <div class="start-icon-wrap">🎁✨</div>
-      <h2 class="start-title">A Special Birthday Surprise</h2>
-      <p class="start-sub">For Rithika S • With Lots of Love From Gokul 💖</p>
-      <button id="start-enter-btn" class="start-enter-btn" onclick="event.stopPropagation(); document.getElementById('start-overlay').style.display='none'; if(window.playVoiceWish) window.playVoiceWish();">
-        <span class="btn-sparkle">💖</span> Open Birthday Surprise 🎁
-      </button>
-      <p class="start-tip">🎙️ Sound On • Listen to Gokul's Voice Birthday Wish</p>
-    </div>
-  </div>
+  <!-- Raining Paper Confetti Canvas -->
   <canvas id="confetti-canvas"></canvas>
 
   <!-- Floating Party Balloons -->
@@ -462,12 +451,6 @@
       <p id="lightbox-caption" style="margin-top: 15px; color: var(--pink-accent); font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700;"></p>
     </div>
   </div>
-
-  <!-- Floating Voice Wish Quick Play Button (Bottom Right) -->
-  <button id="floating-voice-btn" class="floating-voice-btn" title="Listen Gokul's Voice Birthday Wish 🎙️">
-    <span class="voice-icon">🎙️</span>
-    <span class="voice-text">Gokul's Voice Wish 💖</span>
-  </button>
 
   <!-- Main JavaScript File -->
   <script src="js/main.js"></script>
