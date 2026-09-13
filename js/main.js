@@ -147,16 +147,10 @@
     if (hasSequenceStarted) return;
     hasSequenceStarted = true;
 
-    if (voiceSoundwave) voiceSoundwave.classList.remove('hidden');
-    if (voiceStatusLabel) voiceStatusLabel.textContent = "🎶 Playing Birthday Music... 🎹✨";
-
     playBirthdayMusicIntro(() => {
-      // Play Gokul's actual voice recording right after the music intro
       if (voiceAudioEl) {
-        if (voiceStatusLabel) voiceStatusLabel.textContent = "🎙️ Gokul: \"Happy Birthday Girl\" 💖";
         voiceAudioEl.volume = 1.0;
         const playPromise = voiceAudioEl.play();
-
         if (playPromise !== undefined) {
           playPromise.catch((err) => {
             console.log("Audio playback error:", err);
@@ -166,44 +160,7 @@
     });
   }
 
-    // Play/Pause button event handlers
-    const voicePlayBtn  = document.getElementById('voice-play-btn');
-    const voicePlayIcon = document.getElementById('voice-play-icon');
-
-    if (voicePlayBtn) {
-      voicePlayBtn.addEventListener('click', () => {
-        if (voiceAudioEl.paused) {
-          voiceAudioEl.play();
-          if (voicePlayIcon) voicePlayIcon.textContent = '⏸️';
-          if (voiceSoundwave) voiceSoundwave.classList.remove('hidden');
-          if (voiceStatusLabel) voiceStatusLabel.textContent = '🎙️ Gokul: "Happy Birthday Girl" 💖';
-        } else {
-          voiceAudioEl.pause();
-          if (voicePlayIcon) voicePlayIcon.textContent = '▶️';
-          if (voiceSoundwave) voiceSoundwave.classList.add('hidden');
-          if (voiceStatusLabel) voiceStatusLabel.textContent = "Click to Play Gokul's Voice Wish ✨";
-        }
-      });
-    }
-
-    voiceAudioEl.addEventListener('play', () => {
-      if (voicePlayIcon) voicePlayIcon.textContent = '⏸️';
-      if (voiceSoundwave) voiceSoundwave.classList.remove('hidden');
-    });
-
-    voiceAudioEl.addEventListener('pause', () => {
-      if (voicePlayIcon) voicePlayIcon.textContent = '▶️';
-      if (voiceSoundwave) voiceSoundwave.classList.add('hidden');
-    });
-
-    voiceAudioEl.addEventListener('ended', () => {
-      if (voicePlayIcon) voicePlayIcon.textContent = '▶️';
-      if (voiceStatusLabel) voiceStatusLabel.textContent = "💖 Happy Birthday Rithika! ✨";
-      setTimeout(() => {
-        if (voiceSoundwave) voiceSoundwave.classList.add('hidden');
-      }, 3000);
-    });
-
+  if (voiceAudioEl) {
     // Attempt sequence autoplay on page load & DOMContentLoaded
     window.addEventListener('load', playFullBirthdaySequence);
     document.addEventListener('DOMContentLoaded', playFullBirthdaySequence);

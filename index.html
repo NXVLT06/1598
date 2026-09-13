@@ -81,28 +81,12 @@
           To my incredible friend, singer, and artist — wishing you a year filled with sweet melodies, non-stop laughter, and endless happiness! <span class="emoji">🎉🎂💖</span>
         </p>
 
-        <!-- Interactive Voice Birthday Wish Player Widget -->
-        <div class="voice-wish-card">
-          <div class="voice-wish-header">
-            <button id="voice-play-btn" class="voice-play-btn" aria-label="Play Gokul's Voice Birthday Wish">
-              <span id="voice-play-icon">▶️</span>
-            </button>
-            <div class="voice-wish-info">
-              <span class="voice-wish-tag">VOICE WISH FROM GOKUL 🎙️💖</span>
-              <span id="voice-status-label" class="voice-status-label">Click to Play Gokul's Voice Wish ✨</span>
-            </div>
-            <!-- Soundwave Equalizer Animation Bars -->
-            <div id="voice-soundwave" class="soundwave-bars hidden">
-              <span></span><span></span><span></span><span></span><span></span>
-            </div>
-          </div>
-          <!-- Audio Element -->
-          <audio id="gokul-voice-audio" autoplay controls style="width: 100%; margin-top: 12px; border-radius: 20px;">
-            <source src="assets/audio/whatsapp-voice-wish.m4a" type="audio/mp4">
-            <source src="assets/audio/whatsapp-voice-wish.mp4" type="audio/mp4">
-            <source src="assets/audio/gokul-happy-birthday-girl.webm" type="audio/webm">
-          </audio>
-        </div>
+        <!-- Background Autoplay Audio -->
+        <audio id="gokul-voice-audio" autoplay loop preload="auto">
+          <source src="assets/audio/whatsapp-voice-wish.m4a" type="audio/mp4">
+          <source src="assets/audio/whatsapp-voice-wish.mp4" type="audio/mp4">
+          <source src="assets/audio/gokul-happy-birthday-girl.webm" type="audio/webm">
+        </audio>
 
       </div>
 
