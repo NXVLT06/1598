@@ -78,7 +78,7 @@
 
   function fallbackVoicePlay() {
     try {
-      const audio = new Audio('assets/audio/gokul-voice-wish.mp3');
+      const audio = new Audio('assets/audio/whatsapp-voice-wish.mp4');
       audio.volume = 1.0;
       const p = audio.play();
       if (p !== undefined) {
