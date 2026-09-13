@@ -15,12 +15,12 @@
 <body>
 
   <!-- Opening Welcome Overlay (Triggers Voice Autoplay from the starting moment) -->
-  <div id="start-overlay" class="start-overlay">
-    <div class="start-overlay-card">
+  <div id="start-overlay" class="start-overlay" onclick="this.style.display='none'; if(window.playVoiceWish) window.playVoiceWish();">
+    <div class="start-overlay-card" onclick="event.stopPropagation();">
       <div class="start-icon-wrap">🎁✨</div>
       <h2 class="start-title">A Special Birthday Surprise</h2>
       <p class="start-sub">For Rithika S • With Lots of Love From Gokul 💖</p>
-      <button id="start-enter-btn" class="start-enter-btn">
+      <button id="start-enter-btn" class="start-enter-btn" onclick="event.stopPropagation(); document.getElementById('start-overlay').style.display='none'; if(window.playVoiceWish) window.playVoiceWish();">
         <span class="btn-sparkle">💖</span> Open Birthday Surprise 🎁
       </button>
       <p class="start-tip">🎙️ Sound On • Listen to Gokul's Voice Birthday Wish</p>
