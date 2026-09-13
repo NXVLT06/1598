@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>When She Sings 🎤💖 — Her Melodies Showcase</title>
+  <meta name="description" content="A special showcase of Rithika's beautiful singing performance videos." />
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Floating Balloons & Musical Notes -->
+  <div class="balloon-container" aria-hidden="true">
+    <div class="floating-balloon b1">🎤</div>
+    <div class="floating-balloon b2">🎵</div>
+    <div class="floating-balloon b3">💖</div>
+    <div class="floating-balloon b4">🎶</div>
+    <div class="floating-balloon b5">✨</div>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header style="position: relative; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 24px 40px;">
+    <a href="index.html" class="btn-glow-pink" style="padding: 10px 24px; font-size: 0.95rem; text-decoration: none;">
+      ← Back to Friendship Birthday Home 🏠
+    </a>
+  </header>
+
+  <!-- Main Auditorium Stage -->
+  <main class="page-section" style="padding-top: 20px;">
+    <div class="section-inner">
+      <h2 class="section-sub">SPECIAL SINGING COLLECTION 🎵✨</h2>
+      <h1 class="section-title" style="font-size: clamp(2.5rem, 5vw, 4.2rem);">When She Sings 🎤💖</h1>
+      <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 15px auto 40px;">
+        Her voice, her songs, and her beautiful performance melodies preserved forever. Click any performance below to watch with full audio!
+      </p>
+
+      <!-- Video Grid -->
+      <div class="memories-grid">
+        
+        <!-- Video Card 1 -->
+        <div class="memory-card" data-type="video" data-src="assets/videos/song-1.mp4" data-caption="Her Voice - Song Cover 1 🎤🎶✨">
+          <div class="memory-media-wrap">
+            <video src="assets/videos/song-thumb-cover.mp4" autoplay loop muted playsinline></video>
+          </div>
+          <h3 class="memory-caption">Her Voice - Song Cover 1 🎤🎶✨</h3>
+        </div>
+
+        <!-- Video Card 2 -->
+        <div class="memory-card" data-type="video" data-src="assets/videos/song-2.mp4" data-caption="Her Voice - Song Cover 2 🎤🎵💖">
+          <div class="memory-media-wrap">
+            <video src="assets/videos/song-thumb-cover.mp4" autoplay loop muted playsinline></video>
+          </div>
+          <h3 class="memory-caption">Her Voice - Song Cover 2 🎤🎵💖</h3>
+        </div>
+
+        <!-- Video Card 3 -->
+        <div class="memory-card" data-type="video" data-src="assets/videos/song-3.mp4" data-caption="Her Voice - Song Cover 3 🎤🌸🎶">
+          <div class="memory-media-wrap">
+            <video src="assets/videos/song-thumb-cover.mp4" autoplay loop muted playsinline></video>
+          </div>
+          <h3 class="memory-caption">Her Voice - Song Cover 3 🎤🌸🎶</h3>
+        </div>
+
+        <!-- Video Card 4 -->
+        <div class="memory-card" data-type="video" data-src="assets/videos/song-4.mp4" data-caption="Her Voice - Song Cover 4 🎤✨💖">
+          <div class="memory-media-wrap">
+            <video src="assets/videos/song-thumb-cover.mp4" autoplay loop muted playsinline></video>
+          </div>
+          <h3 class="memory-caption">Her Voice - Song Cover 4 🎤✨💖</h3>
+        </div>
+
+        <!-- Video Card 5 -->
+        <div class="memory-card" data-type="video" data-src="assets/videos/song-full-performance.mp4" data-caption="Her Voice - Special Performance 🎤💖✨">
+          <div class="memory-media-wrap">
+            <video src="assets/videos/song-full-performance.mp4" autoplay loop muted playsinline></video>
+          </div>
+          <h3 class="memory-caption">Her Voice - Special Performance 🎤💖✨</h3>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Lightbox Player Modal -->
+  <div id="lightbox-modal" class="lightbox-modal hidden">
+    <div class="lightbox-content">
+      <button id="lightbox-close" class="lightbox-close-btn">✕ Close</button>
+      <img id="lightbox-img" class="hidden" src="" alt="Enlarged Memory" />
+      <video id="lightbox-video" class="hidden" src="" controls autoplay></video>
+      <p id="lightbox-caption" style="margin-top: 15px; color: var(--pink-glow); font-family: var(--font-heading); font-size: 1.25rem;"></p>
+    </div>
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
