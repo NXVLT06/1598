@@ -72,10 +72,21 @@
     });
 
     requestAnimationFrame(animateConfetti);
-  // ── 2. One-Time Voice Wish Background Autoplay ────────────
-  const voiceAudioEl = document.getElementById('gokul-voice-audio');
-  let hasVoicePlayed = false;
-  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'scroll', 'keydown'];
+  // ── 2. One-Time Voice Wish Background Autoplay & Intro Overlay ────────────
+  const voiceAudioEl  = document.getElementById('gokul-voice-audio');
+  const startOverlay  = document.getElementById('start-overlay');
+  const startEnterBtn = document.getElementById('start-enter-btn');
+  let hasVoicePlayed  = false;
+  const interactionEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'keydown'];
+
+  function dismissOverlay() {
+    if (startOverlay) {
+      startOverlay.classList.add('fade-out');
+      setTimeout(() => {
+        startOverlay.style.display = 'none';
+      }, 500);
+    }
+  }
 
   function removeVoiceGestureListeners() {
     interactionEvents.forEach(evt => {
@@ -91,14 +102,31 @@
     if (playPromise !== undefined) {
       playPromise.then(() => {
         hasVoicePlayed = true;
+        dismissOverlay();
         removeVoiceGestureListeners();
+        if (window.launchConfetti) window.launchConfetti(4000);
+        if (window.launchFireworks) window.launchFireworks(4000);
       }).catch(() => {
         hasVoicePlayed = false;
       });
     } else {
       hasVoicePlayed = true;
+      dismissOverlay();
       removeVoiceGestureListeners();
     }
+  }
+
+  if (startEnterBtn) {
+    startEnterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      playVoiceWishOnce();
+    });
+  }
+
+  if (startOverlay) {
+    startOverlay.addEventListener('click', () => {
+      playVoiceWishOnce();
+    });
   }
 
   if (voiceAudioEl) {
@@ -106,7 +134,6 @@
     window.addEventListener('load', playVoiceWishOnce);
     document.addEventListener('DOMContentLoaded', playVoiceWishOnce);
     setTimeout(playVoiceWishOnce, 300);
-    setTimeout(playVoiceWishOnce, 1000);
 
     interactionEvents.forEach(evt => {
       window.addEventListener(evt, playVoiceWishOnce, { passive: true });
